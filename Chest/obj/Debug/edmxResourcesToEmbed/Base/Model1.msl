@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ChestModelStoreContainer" CdmEntityContainer="ChestEntities">
+    <EntitySetMapping Name="Categorys">
+      <EntityTypeMapping TypeName="ChestModel.Categorys">
+        <MappingFragment StoreEntitySet="Categorys">
+          <ScalarProperty Name="PathScreen" ColumnName="PathScreen" />
+          <ScalarProperty Name="ID_Categorys" ColumnName="ID_Categorys" />
+          <ScalarProperty Name="ID_Chester" ColumnName="ID_Chester" />
+          <ScalarProperty Name="Наименование" ColumnName="Наименование" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Chesters">
+      <EntityTypeMapping TypeName="ChestModel.Chesters">
+        <MappingFragment StoreEntitySet="Chesters">
+          <ScalarProperty Name="Название" ColumnName="Название" />
+          <ScalarProperty Name="ID_Chester" ColumnName="ID_Chester" />
+          <ScalarProperty Name="ID_Category" ColumnName="ID_Category" />
+          <ScalarProperty Name="ID_Firm" ColumnName="ID_Firm" />
+          <ScalarProperty Name="Количество" ColumnName="Количество" />
+          <ScalarProperty Name="Дата_поступления" ColumnName="Дата поступления" />
+          <ScalarProperty Name="Стоимость" ColumnName="Стоимость" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Clients">
+      <EntityTypeMapping TypeName="ChestModel.Clients">
+        <MappingFragment StoreEntitySet="Clients">
+          <ScalarProperty Name="ID_Client" ColumnName="ID_Client" />
+          <ScalarProperty Name="ID_Zakaz" ColumnName="ID_Zakaz" />
+          <ScalarProperty Name="Адрес" ColumnName="Адрес" />
+          <ScalarProperty Name="ИНН" ColumnName="ИНН" />
+          <ScalarProperty Name="Номер_телефона" ColumnName="Номер телефона" />
+          <ScalarProperty Name="ФИО" ColumnName="ФИО" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Firms">
+      <EntityTypeMapping TypeName="ChestModel.Firms">
+        <MappingFragment StoreEntitySet="Firms">
+          <ScalarProperty Name="ID_Firm" ColumnName="ID_Firm" />
+          <ScalarProperty Name="ID_Chester" ColumnName="ID_Chester" />
+          <ScalarProperty Name="Наименование" ColumnName="Наименование" />
+          <ScalarProperty Name="Юр_Лицо" ColumnName="Юр.Лицо" />
+          <ScalarProperty Name="Физ_Лицо" ColumnName="Физ.Лицо" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="ChestModel.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="ChestModel.Users">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="ID_Users" ColumnName="ID_Users" />
+          <ScalarProperty Name="Логин" ColumnName="Логин" />
+          <ScalarProperty Name="Пароль" ColumnName="Пароль" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Zakazs">
+      <EntityTypeMapping TypeName="ChestModel.Zakazs">
+        <MappingFragment StoreEntitySet="Zakazs">
+          <ScalarProperty Name="ID_Zakaz" ColumnName="ID_Zakaz" />
+          <ScalarProperty Name="ID_Chester" ColumnName="ID_Chester" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Pictures">
+      <EntityTypeMapping TypeName="ChestModel.Pictures">
+        <MappingFragment StoreEntitySet="Pictures">
+          <ScalarProperty Name="info" ColumnName="info" />
+          <ScalarProperty Name="pic" ColumnName="pic" />
+          <ScalarProperty Name="id_pic" ColumnName="id_pic" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

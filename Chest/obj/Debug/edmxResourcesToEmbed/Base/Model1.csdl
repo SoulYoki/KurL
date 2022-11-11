@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ChestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Categorys">
+    <Key>
+      <PropertyRef Name="ID_Categorys" />
+    </Key>
+    <Property Name="ID_Categorys" Type="Int32" Nullable="false" />
+    <Property Name="ID_Chester" Type="Int32" Nullable="false" />
+    <Property Name="Наименование" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Chesters" Relationship="Self.FK_Chesters_Categorys" FromRole="Categorys" ToRole="Chesters" />
+    <Property Name="PathScreen" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Chesters">
+    <Key>
+      <PropertyRef Name="ID_Chester" />
+    </Key>
+    <Property Name="ID_Chester" Type="Int32" Nullable="false" />
+    <Property Name="ID_Category" Type="Int32" Nullable="false" />
+    <Property Name="ID_Firm" Type="Int32" Nullable="false" />
+    <Property Name="Количество" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Дата_поступления" Type="DateTime" Precision="0" />
+    <Property Name="Стоимость" Type="Decimal" Precision="19" Scale="4" />
+    <NavigationProperty Name="Categorys" Relationship="Self.FK_Chesters_Categorys" FromRole="Chesters" ToRole="Categorys" />
+    <NavigationProperty Name="Firms" Relationship="Self.FK_Chesters_Firms" FromRole="Chesters" ToRole="Firms" />
+    <NavigationProperty Name="Zakazs" Relationship="Self.FK_Zakazs_Chesters" FromRole="Chesters" ToRole="Zakazs" />
+    <Property Name="Название" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Clients">
+    <Key>
+      <PropertyRef Name="ID_Client" />
+    </Key>
+    <Property Name="ID_Client" Type="Int32" Nullable="false" />
+    <Property Name="ID_Zakaz" Type="Int32" Nullable="false" />
+    <Property Name="Адрес" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ИНН" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Номер_телефона" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ФИО" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Zakazs" Relationship="Self.FK_Clients_Zakazs" FromRole="Clients" ToRole="Zakazs" />
+  </EntityType>
+  <EntityType Name="Firms">
+    <Key>
+      <PropertyRef Name="ID_Firm" />
+    </Key>
+    <Property Name="ID_Firm" Type="Int32" Nullable="false" />
+    <Property Name="ID_Chester" Type="Int32" />
+    <Property Name="Наименование" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Юр_Лицо" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Физ_Лицо" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Chesters" Relationship="Self.FK_Chesters_Firms" FromRole="Firms" ToRole="Chesters" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="ID_Users" />
+    </Key>
+    <Property Name="ID_Users" Type="Int32" Nullable="false" />
+    <Property Name="Логин" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Пароль" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Zakazs">
+    <Key>
+      <PropertyRef Name="ID_Zakaz" />
+    </Key>
+    <Property Name="ID_Zakaz" Type="Int32" Nullable="false" />
+    <Property Name="ID_Chester" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Chesters" Relationship="Self.FK_Zakazs_Chesters" FromRole="Zakazs" ToRole="Chesters" />
+    <NavigationProperty Name="Clients" Relationship="Self.FK_Clients_Zakazs" FromRole="Zakazs" ToRole="Clients" />
+  </EntityType>
+  <Association Name="FK_Chesters_Categorys">
+    <End Role="Categorys" Type="Self.Categorys" Multiplicity="1" />
+    <End Role="Chesters" Type="Self.Chesters" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categorys">
+        <PropertyRef Name="ID_Categorys" />
+      </Principal>
+      <Dependent Role="Chesters">
+        <PropertyRef Name="ID_Category" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Chesters_Firms">
+    <End Role="Firms" Type="Self.Firms" Multiplicity="1" />
+    <End Role="Chesters" Type="Self.Chesters" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Firms">
+        <PropertyRef Name="ID_Firm" />
+      </Principal>
+      <Dependent Role="Chesters">
+        <PropertyRef Name="ID_Firm" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Zakazs_Chesters">
+    <End Role="Chesters" Type="Self.Chesters" Multiplicity="1" />
+    <End Role="Zakazs" Type="Self.Zakazs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Chesters">
+        <PropertyRef Name="ID_Chester" />
+      </Principal>
+      <Dependent Role="Zakazs">
+        <PropertyRef Name="ID_Chester" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Clients_Zakazs">
+    <End Role="Zakazs" Type="Self.Zakazs" Multiplicity="1" />
+    <End Role="Clients" Type="Self.Clients" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Zakazs">
+        <PropertyRef Name="ID_Zakaz" />
+      </Principal>
+      <Dependent Role="Clients">
+        <PropertyRef Name="ID_Zakaz" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ChestEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categorys" EntityType="Self.Categorys" />
+    <EntitySet Name="Chesters" EntityType="Self.Chesters" />
+    <EntitySet Name="Clients" EntityType="Self.Clients" />
+    <EntitySet Name="Firms" EntityType="Self.Firms" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Users" EntityType="Self.Users" />
+    <EntitySet Name="Zakazs" EntityType="Self.Zakazs" />
+    <AssociationSet Name="FK_Chesters_Categorys" Association="Self.FK_Chesters_Categorys">
+      <End Role="Categorys" EntitySet="Categorys" />
+      <End Role="Chesters" EntitySet="Chesters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Chesters_Firms" Association="Self.FK_Chesters_Firms">
+      <End Role="Firms" EntitySet="Firms" />
+      <End Role="Chesters" EntitySet="Chesters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Zakazs_Chesters" Association="Self.FK_Zakazs_Chesters">
+      <End Role="Chesters" EntitySet="Chesters" />
+      <End Role="Zakazs" EntitySet="Zakazs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Clients_Zakazs" Association="Self.FK_Clients_Zakazs">
+      <End Role="Zakazs" EntitySet="Zakazs" />
+      <End Role="Clients" EntitySet="Clients" />
+    </AssociationSet>
+    <EntitySet Name="Pictures" EntityType="ChestModel.Pictures" />
+  </EntityContainer>
+  <EntityType Name="Pictures">
+    <Key>
+      <PropertyRef Name="id_pic" />
+    </Key>
+    <Property Name="id_pic" Type="Int32" Nullable="false" />
+    <Property Name="pic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="info" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+</Schema>

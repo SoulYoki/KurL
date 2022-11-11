@@ -1,0 +1,94 @@
+﻿<Window x:Class="Chest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Chest"
+        mc:Ignorable="d"
+        Title="Выбор категории" Height="420" Width="650" MinHeight="300" MinWidth="440" 
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        BorderThickness="5"
+        
+         >
+
+
+
+
+    <Window.Resources>
+
+        <DataTemplate x:Key="listMain">
+            <StackPanel Margin="34" HorizontalAlignment="Center">
+
+                <Image Width="100" Height="75" Source="{Binding Path=PathScreen}"/>
+                <TextBlock Width="100" FontSize="14" Text="{Binding Path= Наименование}"/>
+               <!--<TextBlock x:Name="idcat" Width="50" FontSize="14" Text="{Binding Path= ID_Categorys}"/>-->
+
+
+
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+    <Border CornerRadius="50,0,50,50" BorderThickness="20" >
+        <Border.BorderBrush>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="DimGray" Offset="0.0"/>
+                <GradientStop Color="LightPink" Offset="1.0"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+
+        <Border CornerRadius="35,0,35,35" BorderThickness="15">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="DimGray" Offset="0.0"/>
+                    <GradientStop Color="HotPink" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+
+            <Grid>
+
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="0.3*" />
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Column="0" Grid.Row="0">
+                    <Image Source="Images/fon.jpg" Height="457" RenderTransformOrigin="0.5,0.5" >
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform AngleY="-0.256"/>
+                                <RotateTransform Angle="0.206"/>
+                                <TranslateTransform Y="-0.496"/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+
+                </StackPanel>
+                <ListBox Grid.Row="1" x:Name="categorysList" ItemTemplate="{StaticResource listMain}"
+                
+             
+            Background="LightSlateGray"
+                 SelectionChanged="categorysList_SelectionChanged"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                    <ListBox.ItemsPanel>
+
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+
+                    </ListBox.ItemsPanel>
+
+                </ListBox>
+
+
+
+
+            </Grid>
+        </Border>
+    </Border>
+</Window>

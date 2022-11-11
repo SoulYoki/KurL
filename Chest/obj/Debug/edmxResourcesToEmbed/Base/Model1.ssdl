@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ChestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Categorys">
+    <Key>
+      <PropertyRef Name="ID_Categorys" />
+    </Key>
+    <Property Name="ID_Categorys" Type="int" Nullable="false" />
+    <Property Name="ID_Chester" Type="int" Nullable="false" />
+    <Property Name="Наименование" Type="nvarchar" MaxLength="50" />
+    <Property Name="PathScreen" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Chesters">
+    <Key>
+      <PropertyRef Name="ID_Chester" />
+    </Key>
+    <Property Name="ID_Chester" Type="int" Nullable="false" />
+    <Property Name="ID_Category" Type="int" Nullable="false" />
+    <Property Name="ID_Firm" Type="int" Nullable="false" />
+    <Property Name="Название" Type="nvarchar" MaxLength="50" />
+    <Property Name="Количество" Type="nvarchar" MaxLength="50" />
+    <Property Name="Дата поступления" Type="date" />
+    <Property Name="Стоимость" Type="money" />
+  </EntityType>
+  <EntityType Name="Clients">
+    <Key>
+      <PropertyRef Name="ID_Client" />
+    </Key>
+    <Property Name="ID_Client" Type="int" Nullable="false" />
+    <Property Name="ID_Zakaz" Type="int" Nullable="false" />
+    <Property Name="Адрес" Type="nvarchar" MaxLength="50" />
+    <Property Name="ИНН" Type="nvarchar" MaxLength="50" />
+    <Property Name="Номер телефона" Type="nvarchar" MaxLength="50" />
+    <Property Name="ФИО" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Firms">
+    <Key>
+      <PropertyRef Name="ID_Firm" />
+    </Key>
+    <Property Name="ID_Firm" Type="int" Nullable="false" />
+    <Property Name="ID_Chester" Type="int" />
+    <Property Name="Наименование" Type="nvarchar" MaxLength="50" />
+    <Property Name="Юр.Лицо" Type="nvarchar" MaxLength="50" />
+    <Property Name="Физ.Лицо" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'Chest.dbo.Pictures' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Pictures">
+    <Key>
+      <PropertyRef Name="id_pic" />
+    </Key>
+    <Property Name="id_pic" Type="int" Nullable="false" />
+    <Property Name="pic" Type="nvarchar(max)" />
+    <Property Name="info" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="ID_Users" />
+    </Key>
+    <Property Name="ID_Users" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Логин" Type="nvarchar" MaxLength="50" />
+    <Property Name="Пароль" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Zakazs">
+    <Key>
+      <PropertyRef Name="ID_Zakaz" />
+    </Key>
+    <Property Name="ID_Zakaz" Type="int" Nullable="false" />
+    <Property Name="ID_Chester" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Chesters_Categorys">
+    <End Role="Categorys" Type="Self.Categorys" Multiplicity="1" />
+    <End Role="Chesters" Type="Self.Chesters" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categorys">
+        <PropertyRef Name="ID_Categorys" />
+      </Principal>
+      <Dependent Role="Chesters">
+        <PropertyRef Name="ID_Category" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Chesters_Firms">
+    <End Role="Firms" Type="Self.Firms" Multiplicity="1" />
+    <End Role="Chesters" Type="Self.Chesters" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Firms">
+        <PropertyRef Name="ID_Firm" />
+      </Principal>
+      <Dependent Role="Chesters">
+        <PropertyRef Name="ID_Firm" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Clients_Zakazs">
+    <End Role="Zakazs" Type="Self.Zakazs" Multiplicity="1" />
+    <End Role="Clients" Type="Self.Clients" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Zakazs">
+        <PropertyRef Name="ID_Zakaz" />
+      </Principal>
+      <Dependent Role="Clients">
+        <PropertyRef Name="ID_Zakaz" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Zakazs_Chesters">
+    <End Role="Chesters" Type="Self.Chesters" Multiplicity="1" />
+    <End Role="Zakazs" Type="Self.Zakazs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Chesters">
+        <PropertyRef Name="ID_Chester" />
+      </Principal>
+      <Dependent Role="Zakazs">
+        <PropertyRef Name="ID_Chester" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ChestModelStoreContainer">
+    <EntitySet Name="Categorys" EntityType="Self.Categorys" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Chesters" EntityType="Self.Chesters" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Firms" EntityType="Self.Firms" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Zakazs" EntityType="Self.Zakazs" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Pictures" EntityType="Self.Pictures" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Pictures].[id_pic] AS [id_pic], 
+    [Pictures].[pic] AS [pic], 
+    [Pictures].[info] AS [info]
+    FROM [dbo].[Pictures] AS [Pictures]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_Chesters_Categorys" Association="Self.FK_Chesters_Categorys">
+      <End Role="Categorys" EntitySet="Categorys" />
+      <End Role="Chesters" EntitySet="Chesters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Chesters_Firms" Association="Self.FK_Chesters_Firms">
+      <End Role="Firms" EntitySet="Firms" />
+      <End Role="Chesters" EntitySet="Chesters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Clients_Zakazs" Association="Self.FK_Clients_Zakazs">
+      <End Role="Zakazs" EntitySet="Zakazs" />
+      <End Role="Clients" EntitySet="Clients" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Zakazs_Chesters" Association="Self.FK_Zakazs_Chesters">
+      <End Role="Chesters" EntitySet="Chesters" />
+      <End Role="Zakazs" EntitySet="Zakazs" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

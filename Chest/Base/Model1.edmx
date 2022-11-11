@@ -1,0 +1,438 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ChestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Categorys">
+          <Key>
+            <PropertyRef Name="ID_Categorys" />
+          </Key>
+          <Property Name="ID_Categorys" Type="int" Nullable="false" />
+          <Property Name="ID_Chester" Type="int" Nullable="false" />
+          <Property Name="Наименование" Type="nvarchar" MaxLength="50" />
+          <Property Name="PathScreen" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Chesters">
+          <Key>
+            <PropertyRef Name="ID_Chester" />
+          </Key>
+          <Property Name="ID_Chester" Type="int" Nullable="false" />
+          <Property Name="ID_Category" Type="int" Nullable="false" />
+          <Property Name="ID_Firm" Type="int" Nullable="false" />
+          <Property Name="Название" Type="nvarchar" MaxLength="50" />
+          <Property Name="Количество" Type="nvarchar" MaxLength="50" />
+          <Property Name="Дата поступления" Type="date" />
+          <Property Name="Стоимость" Type="money" />
+        </EntityType>
+        <EntityType Name="Clients">
+          <Key>
+            <PropertyRef Name="ID_Client" />
+          </Key>
+          <Property Name="ID_Client" Type="int" Nullable="false" />
+          <Property Name="ID_Zakaz" Type="int" Nullable="false" />
+          <Property Name="Адрес" Type="nvarchar" MaxLength="50" />
+          <Property Name="ИНН" Type="nvarchar" MaxLength="50" />
+          <Property Name="Номер телефона" Type="nvarchar" MaxLength="50" />
+          <Property Name="ФИО" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Firms">
+          <Key>
+            <PropertyRef Name="ID_Firm" />
+          </Key>
+          <Property Name="ID_Firm" Type="int" Nullable="false" />
+          <Property Name="ID_Chester" Type="int" />
+          <Property Name="Наименование" Type="nvarchar" MaxLength="50" />
+          <Property Name="Юр.Лицо" Type="nvarchar" MaxLength="50" />
+          <Property Name="Физ.Лицо" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Chest.dbo.Pictures' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Pictures">
+          <Key>
+            <PropertyRef Name="id_pic" />
+          </Key>
+          <Property Name="id_pic" Type="int" Nullable="false" />
+          <Property Name="pic" Type="nvarchar(max)" />
+          <Property Name="info" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID_Users" />
+          </Key>
+          <Property Name="ID_Users" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Логин" Type="nvarchar" MaxLength="50" />
+          <Property Name="Пароль" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Zakazs">
+          <Key>
+            <PropertyRef Name="ID_Zakaz" />
+          </Key>
+          <Property Name="ID_Zakaz" Type="int" Nullable="false" />
+          <Property Name="ID_Chester" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Chesters_Categorys">
+          <End Role="Categorys" Type="Self.Categorys" Multiplicity="1" />
+          <End Role="Chesters" Type="Self.Chesters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categorys">
+              <PropertyRef Name="ID_Categorys" />
+            </Principal>
+            <Dependent Role="Chesters">
+              <PropertyRef Name="ID_Category" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Chesters_Firms">
+          <End Role="Firms" Type="Self.Firms" Multiplicity="1" />
+          <End Role="Chesters" Type="Self.Chesters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Firms">
+              <PropertyRef Name="ID_Firm" />
+            </Principal>
+            <Dependent Role="Chesters">
+              <PropertyRef Name="ID_Firm" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clients_Zakazs">
+          <End Role="Zakazs" Type="Self.Zakazs" Multiplicity="1" />
+          <End Role="Clients" Type="Self.Clients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zakazs">
+              <PropertyRef Name="ID_Zakaz" />
+            </Principal>
+            <Dependent Role="Clients">
+              <PropertyRef Name="ID_Zakaz" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zakazs_Chesters">
+          <End Role="Chesters" Type="Self.Chesters" Multiplicity="1" />
+          <End Role="Zakazs" Type="Self.Zakazs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chesters">
+              <PropertyRef Name="ID_Chester" />
+            </Principal>
+            <Dependent Role="Zakazs">
+              <PropertyRef Name="ID_Chester" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ChestModelStoreContainer">
+          <EntitySet Name="Categorys" EntityType="Self.Categorys" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Chesters" EntityType="Self.Chesters" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Firms" EntityType="Self.Firms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Zakazs" EntityType="Self.Zakazs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pictures" EntityType="Self.Pictures" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Pictures].[id_pic] AS [id_pic], 
+    [Pictures].[pic] AS [pic], 
+    [Pictures].[info] AS [info]
+    FROM [dbo].[Pictures] AS [Pictures]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Chesters_Categorys" Association="Self.FK_Chesters_Categorys">
+            <End Role="Categorys" EntitySet="Categorys" />
+            <End Role="Chesters" EntitySet="Chesters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Chesters_Firms" Association="Self.FK_Chesters_Firms">
+            <End Role="Firms" EntitySet="Firms" />
+            <End Role="Chesters" EntitySet="Chesters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clients_Zakazs" Association="Self.FK_Clients_Zakazs">
+            <End Role="Zakazs" EntitySet="Zakazs" />
+            <End Role="Clients" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zakazs_Chesters" Association="Self.FK_Zakazs_Chesters">
+            <End Role="Chesters" EntitySet="Chesters" />
+            <End Role="Zakazs" EntitySet="Zakazs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ChestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Categorys">
+          <Key>
+            <PropertyRef Name="ID_Categorys" />
+          </Key>
+          <Property Name="ID_Categorys" Type="Int32" Nullable="false" />
+          <Property Name="ID_Chester" Type="Int32" Nullable="false" />
+          <Property Name="Наименование" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Chesters" Relationship="Self.FK_Chesters_Categorys" FromRole="Categorys" ToRole="Chesters" />
+          <Property Name="PathScreen" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Chesters">
+          <Key>
+            <PropertyRef Name="ID_Chester" />
+          </Key>
+          <Property Name="ID_Chester" Type="Int32" Nullable="false" />
+          <Property Name="ID_Category" Type="Int32" Nullable="false" />
+          <Property Name="ID_Firm" Type="Int32" Nullable="false" />
+          <Property Name="Количество" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Дата_поступления" Type="DateTime" Precision="0" />
+          <Property Name="Стоимость" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Categorys" Relationship="Self.FK_Chesters_Categorys" FromRole="Chesters" ToRole="Categorys" />
+          <NavigationProperty Name="Firms" Relationship="Self.FK_Chesters_Firms" FromRole="Chesters" ToRole="Firms" />
+          <NavigationProperty Name="Zakazs" Relationship="Self.FK_Zakazs_Chesters" FromRole="Chesters" ToRole="Zakazs" />
+          <Property Name="Название" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Clients">
+          <Key>
+            <PropertyRef Name="ID_Client" />
+          </Key>
+          <Property Name="ID_Client" Type="Int32" Nullable="false" />
+          <Property Name="ID_Zakaz" Type="Int32" Nullable="false" />
+          <Property Name="Адрес" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ИНН" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Номер_телефона" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ФИО" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Zakazs" Relationship="Self.FK_Clients_Zakazs" FromRole="Clients" ToRole="Zakazs" />
+        </EntityType>
+        <EntityType Name="Firms">
+          <Key>
+            <PropertyRef Name="ID_Firm" />
+          </Key>
+          <Property Name="ID_Firm" Type="Int32" Nullable="false" />
+          <Property Name="ID_Chester" Type="Int32" />
+          <Property Name="Наименование" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Юр_Лицо" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Физ_Лицо" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Chesters" Relationship="Self.FK_Chesters_Firms" FromRole="Firms" ToRole="Chesters" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID_Users" />
+          </Key>
+          <Property Name="ID_Users" Type="Int32" Nullable="false" />
+          <Property Name="Логин" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Пароль" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Zakazs">
+          <Key>
+            <PropertyRef Name="ID_Zakaz" />
+          </Key>
+          <Property Name="ID_Zakaz" Type="Int32" Nullable="false" />
+          <Property Name="ID_Chester" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Chesters" Relationship="Self.FK_Zakazs_Chesters" FromRole="Zakazs" ToRole="Chesters" />
+          <NavigationProperty Name="Clients" Relationship="Self.FK_Clients_Zakazs" FromRole="Zakazs" ToRole="Clients" />
+        </EntityType>
+        <Association Name="FK_Chesters_Categorys">
+          <End Role="Categorys" Type="Self.Categorys" Multiplicity="1" />
+          <End Role="Chesters" Type="Self.Chesters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categorys">
+              <PropertyRef Name="ID_Categorys" />
+            </Principal>
+            <Dependent Role="Chesters">
+              <PropertyRef Name="ID_Category" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Chesters_Firms">
+          <End Role="Firms" Type="Self.Firms" Multiplicity="1" />
+          <End Role="Chesters" Type="Self.Chesters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Firms">
+              <PropertyRef Name="ID_Firm" />
+            </Principal>
+            <Dependent Role="Chesters">
+              <PropertyRef Name="ID_Firm" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zakazs_Chesters">
+          <End Role="Chesters" Type="Self.Chesters" Multiplicity="1" />
+          <End Role="Zakazs" Type="Self.Zakazs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chesters">
+              <PropertyRef Name="ID_Chester" />
+            </Principal>
+            <Dependent Role="Zakazs">
+              <PropertyRef Name="ID_Chester" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clients_Zakazs">
+          <End Role="Zakazs" Type="Self.Zakazs" Multiplicity="1" />
+          <End Role="Clients" Type="Self.Clients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zakazs">
+              <PropertyRef Name="ID_Zakaz" />
+            </Principal>
+            <Dependent Role="Clients">
+              <PropertyRef Name="ID_Zakaz" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ChestEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categorys" EntityType="Self.Categorys" />
+          <EntitySet Name="Chesters" EntityType="Self.Chesters" />
+          <EntitySet Name="Clients" EntityType="Self.Clients" />
+          <EntitySet Name="Firms" EntityType="Self.Firms" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <EntitySet Name="Zakazs" EntityType="Self.Zakazs" />
+          <AssociationSet Name="FK_Chesters_Categorys" Association="Self.FK_Chesters_Categorys">
+            <End Role="Categorys" EntitySet="Categorys" />
+            <End Role="Chesters" EntitySet="Chesters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Chesters_Firms" Association="Self.FK_Chesters_Firms">
+            <End Role="Firms" EntitySet="Firms" />
+            <End Role="Chesters" EntitySet="Chesters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zakazs_Chesters" Association="Self.FK_Zakazs_Chesters">
+            <End Role="Chesters" EntitySet="Chesters" />
+            <End Role="Zakazs" EntitySet="Zakazs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clients_Zakazs" Association="Self.FK_Clients_Zakazs">
+            <End Role="Zakazs" EntitySet="Zakazs" />
+            <End Role="Clients" EntitySet="Clients" />
+          </AssociationSet>
+          <EntitySet Name="Pictures" EntityType="ChestModel.Pictures" />
+        </EntityContainer>
+        <EntityType Name="Pictures">
+          <Key>
+            <PropertyRef Name="id_pic" />
+          </Key>
+          <Property Name="id_pic" Type="Int32" Nullable="false" />
+          <Property Name="pic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="info" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ChestModelStoreContainer" CdmEntityContainer="ChestEntities">
+          <EntitySetMapping Name="Categorys">
+            <EntityTypeMapping TypeName="ChestModel.Categorys">
+              <MappingFragment StoreEntitySet="Categorys">
+                <ScalarProperty Name="PathScreen" ColumnName="PathScreen" />
+                <ScalarProperty Name="ID_Categorys" ColumnName="ID_Categorys" />
+                <ScalarProperty Name="ID_Chester" ColumnName="ID_Chester" />
+                <ScalarProperty Name="Наименование" ColumnName="Наименование" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Chesters">
+            <EntityTypeMapping TypeName="ChestModel.Chesters">
+              <MappingFragment StoreEntitySet="Chesters">
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="ID_Chester" ColumnName="ID_Chester" />
+                <ScalarProperty Name="ID_Category" ColumnName="ID_Category" />
+                <ScalarProperty Name="ID_Firm" ColumnName="ID_Firm" />
+                <ScalarProperty Name="Количество" ColumnName="Количество" />
+                <ScalarProperty Name="Дата_поступления" ColumnName="Дата поступления" />
+                <ScalarProperty Name="Стоимость" ColumnName="Стоимость" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="ChestModel.Clients">
+              <MappingFragment StoreEntitySet="Clients">
+                <ScalarProperty Name="ID_Client" ColumnName="ID_Client" />
+                <ScalarProperty Name="ID_Zakaz" ColumnName="ID_Zakaz" />
+                <ScalarProperty Name="Адрес" ColumnName="Адрес" />
+                <ScalarProperty Name="ИНН" ColumnName="ИНН" />
+                <ScalarProperty Name="Номер_телефона" ColumnName="Номер телефона" />
+                <ScalarProperty Name="ФИО" ColumnName="ФИО" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Firms">
+            <EntityTypeMapping TypeName="ChestModel.Firms">
+              <MappingFragment StoreEntitySet="Firms">
+                <ScalarProperty Name="ID_Firm" ColumnName="ID_Firm" />
+                <ScalarProperty Name="ID_Chester" ColumnName="ID_Chester" />
+                <ScalarProperty Name="Наименование" ColumnName="Наименование" />
+                <ScalarProperty Name="Юр_Лицо" ColumnName="Юр.Лицо" />
+                <ScalarProperty Name="Физ_Лицо" ColumnName="Физ.Лицо" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ChestModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="ChestModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ID_Users" ColumnName="ID_Users" />
+                <ScalarProperty Name="Логин" ColumnName="Логин" />
+                <ScalarProperty Name="Пароль" ColumnName="Пароль" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Zakazs">
+            <EntityTypeMapping TypeName="ChestModel.Zakazs">
+              <MappingFragment StoreEntitySet="Zakazs">
+                <ScalarProperty Name="ID_Zakaz" ColumnName="ID_Zakaz" />
+                <ScalarProperty Name="ID_Chester" ColumnName="ID_Chester" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pictures">
+            <EntityTypeMapping TypeName="ChestModel.Pictures">
+              <MappingFragment StoreEntitySet="Pictures">
+                <ScalarProperty Name="info" ColumnName="info" />
+                <ScalarProperty Name="pic" ColumnName="pic" />
+                <ScalarProperty Name="id_pic" ColumnName="id_pic" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
